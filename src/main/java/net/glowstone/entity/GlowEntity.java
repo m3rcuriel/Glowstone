@@ -583,6 +583,10 @@ public abstract class GlowEntity implements Entity {
         this.onGround = onGround;
     }
 
+    protected void setSize(float xz, float y) {
+        //todo Size stuff with bounding boxes.
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Miscellaneous actions
 
@@ -614,7 +618,7 @@ public abstract class GlowEntity implements Entity {
     @Override
     public void playEffect(EntityEffect type) {
         for (GlowPlayer player : world.getRawPlayers()) {
-            if (player.canSee(this)) {
+            if (player.canSeeEntity(this)) {
                 player.getSession().send(new EntityStatusMessage(id, type));
             }
         }

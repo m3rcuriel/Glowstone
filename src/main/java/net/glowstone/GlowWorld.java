@@ -5,6 +5,9 @@ import net.glowstone.constants.GlowBiome;
 import net.glowstone.constants.GlowEffect;
 import net.glowstone.constants.GlowParticle;
 import net.glowstone.entity.*;
+import net.glowstone.entity.animals.GlowCow;
+import net.glowstone.entity.animals.GlowPig;
+import net.glowstone.entity.monsters.GlowZombie;
 import net.glowstone.entity.objects.GlowItem;
 import net.glowstone.io.WorldMetadataService.WorldFinalValues;
 import net.glowstone.io.WorldStorageProvider;
@@ -1087,9 +1090,25 @@ public final class GlowWorld implements World {
     ////////////////////////////////////////////////////////////////////////////
     // Entity spawning
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends Entity> T spawn(Location location, Class<T> clazz) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (location == null || clazz == null) {
+            throw new IllegalArgumentException("Location or entity class cannot be null");
+        }
+
+        Entity entity = null;
+
+        if (Cow.class.isAssignableFrom(clazz)) {
+            entity = new GlowCow(location);
+        } else if (Pig.class.isAssignableFrom(clazz)) {
+            entity = new GlowPig(location);
+        } else if (Zombie.class.isAssignableFrom(clazz)) {
+            entity = new GlowZombie(location);
+        } else {
+            throw new UnsupportedOperationException();
+        }
+        return (T) entity;
     }
 
     @Override
