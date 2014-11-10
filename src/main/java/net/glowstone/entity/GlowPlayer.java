@@ -1156,12 +1156,15 @@ public final class GlowPlayer extends GlowHumanEntity implements Player {
             }
             location = event.getTo();
         }
-
-        if (location.getWorld() != world) {
-            spawnAt(location);
+        if(location != null && location.getWorld() != null) {
+            if (location.getWorld() != world) {
+                spawnAt(location);
+            } else {
+                session.send(new PositionRotationMessage(location));
+                setRawLocation(location);
+            }
         } else {
-            session.send(new PositionRotationMessage(location));
-            setRawLocation(location);
+            throw new NullPointerException("Teleport location cannot be null");
         }
 
         teleported = true;
